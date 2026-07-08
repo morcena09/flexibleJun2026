@@ -1,0 +1,413 @@
+:root { 
+  --glass-bg: rgba(255, 255, 255, 0.5); 
+  --glass-border: rgba(255, 255, 255, 0.4); 
+  --text-dark: #0f172a; 
+  --text-muted: #334155; 
+  --accent-blue: #000000; 
+  --accent-hover: #1e293b; 
+  --bubble-bg: #f8fafc; 
+  --bubble-border: #cbd5e1; 
+  
+  /* VS Code Theme Engine colors */ 
+  --vs-bg: #1e1e1e; 
+  --vs-tab-bg: #2d2d2d; 
+  --vs-tab-active: #1e1e1e; 
+  --vs-sidebar: #252526; 
+  --vs-text: #d4d4d4; 
+  --vs-keyword: #569cd6; 
+  --vs-string: #ce9178; 
+  --vs-comment: #6a9955; 
+  --vs-variable: #9cdcfe; 
+  --vs-number: #b5cea8; 
+  --vs-function: #dcdcaa; 
+} 
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; 
+} 
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body { 
+  min-height: 100vh; 
+  display: flex; 
+  padding: 32px; 
+  gap: 32px; 
+  align-items: flex-start; 
+  background-color: #f1f5f9; 
+  position: relative; 
+  overflow-x: hidden; 
+  overflow-y: auto !important; 
+} 
+
+body::before { 
+  content: ''; 
+  position: fixed; 
+  top: 0; left: 0; right: 0; bottom: 0; 
+  z-index: -1; 
+  background-image: url('../assets/image.png'); 
+  background-size: cover; 
+  background-position: center; 
+  filter: blur(12px); 
+  transform: scale(1.05); 
+  opacity: 0.65; 
+} 
+
+/* FIXED: Forces the Agora container framework to sit edge-to-edge across the entire screen layout */
+#root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1;
+  background-color: #000000; /* Maintains uniform backdrop depth */
+  overflow: hidden;
+}
+
+/* Panel distributions */ 
+.left-panel { flex: 0 0 32%; min-width: 360px; height: fit-content; position: relative; z-index: 10; } 
+.right-panel { flex: 0 0 65%; display: flex; flex-direction: column; align-self: stretch; position: relative; z-index: 10; } 
+
+.glass-card { 
+  background: var(--glass-bg); 
+  border: 1px solid var(--glass-border); 
+  border-radius: 24px; 
+  padding: 2rem; 
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06); 
+  color: var(--text-dark); 
+  height: fit-content; 
+} 
+
+header { margin-bottom: 1.5rem; } 
+header h1 { font-size: 1.6rem; font-weight: 800; letter-spacing: -0.03em; } 
+
+.workspace-centered { display: flex; flex-direction: column; gap: 1rem; } 
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; } 
+.form-group { display: flex; flex-direction: column; gap: 0.4rem; } 
+
+label { font-size: 0.88rem; font-weight: 700; color: var(--text-dark); } 
+input, select { 
+  width: 100%; 
+  padding: 11px 13px; 
+  background: rgba(255, 255, 255, 0.8); 
+  border: 1px solid rgba(0, 0, 0, 0.15); 
+  border-radius: 10px; 
+  font-size: 0.88rem; 
+  color: var(--text-dark); 
+  outline: none; 
+  transition: all 0.15s ease; 
+} 
+
+input:focus, select:focus { 
+  background: rgba(255, 255, 255, 0.95); 
+  border-color: #000; 
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05); 
+} 
+
+.thought-bubble { 
+  display: none; 
+  margin-top: 8px; 
+  background-color: var(--bubble-bg); 
+  border: 1px solid var(--bubble-border); 
+  padding: 14px; 
+  border-radius: 12px; 
+  font-size: 0.85rem; 
+  line-height: 1.5; 
+  color: var(--text-dark); 
+} 
+
+.token-preview-box { 
+  margin-top: 6px; 
+  padding: 10px; 
+  background: rgba(15, 23, 42, 0.06); 
+  border: 1px solid rgba(15, 23, 42, 0.1); 
+  border-radius: 8px; 
+  font-family: 'Courier New', Courier, monospace; 
+  font-size: 0.82rem; 
+  word-break: break-all; 
+  user-select: all; 
+} 
+
+.divider { border: 0; height: 1px; background: rgba(0, 0, 0, 0.1); margin: 0.5rem 0; } 
+
+.btn-primary { 
+  background-color: var(--accent-blue); 
+  color: white; 
+  border: none; 
+  padding: 14px 24px; 
+  font-size: 0.95rem; 
+  font-weight: 700; 
+  border-radius: 30px; 
+  cursor: pointer; 
+  transition: all 0.2s ease; 
+  width: 100%; 
+  margin-top: 0.5rem; 
+} 
+
+.btn-primary:hover { background-color: var(--accent-hover); } 
+
+/* VS Code Workspace Window Styling */ 
+.code-editor { 
+  background: var(--vs-bg); 
+  border-radius: 16px; 
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); 
+  display: flex; 
+  flex-direction: column; 
+  height: 100%; 
+  overflow: hidden; 
+  font-family: 'Courier New', Courier, monospace; 
+} 
+
+.editor-header { 
+  background: var(--vs-sidebar); 
+  display: flex; 
+  align-items: center; 
+  height: 45px; 
+  padding: 0 16px; 
+} 
+
+.editor-buttons { display: flex; gap: 8px; margin-right: 24px; } 
+.editor-dot { width: 12px; height: 12px; border-radius: 50%; } 
+.dot-red { background: #ff5f56; } 
+.dot-yellow { background: #ffbd2e; } 
+.dot-green { background: #27c93f; } 
+
+.editor-tab { 
+  background: var(--vs-tab-active); 
+  color: var(--vs-text); 
+  padding: 0 24px; 
+  display: flex; 
+  align-items: center; 
+  font-size: 0.85rem; 
+  height: 100%; 
+  border-top: 2px solid #007acc; 
+} 
+
+.editor-body { 
+  flex: 1; 
+  padding: 20px; 
+  overflow-y: auto; 
+  overflow-x: hidden; 
+  color: var(--vs-text); 
+  font-size: 0.9rem; 
+  line-height: 1.55; 
+  white-space: pre-wrap; 
+  word-break: break-all; 
+} 
+
+.editor-body .str { white-space: pre-wrap; word-break: break-all; } 
+
+/* Modern Floating Info Button */ 
+.help-trigger-container { 
+  position: fixed; 
+  bottom: 30px; 
+  right: 30px; 
+  z-index: 1000; 
+  cursor: pointer; 
+  animation: floatUpDown 2s ease-in-out infinite; 
+  user-select: none; 
+} 
+
+.help-icon { 
+  width: 44px; 
+  height: 44px; 
+  background-color: var(--vs-sidebar); 
+  border: 1px solid rgba(255, 255, 255, 0.15); 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  color: var(--vs-text); 
+  font-family: 'Georgia', serif; 
+  font-size: 1.25rem; 
+  font-weight: bold; 
+  font-style: italic; 
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); 
+  transition: all 0.2s ease; 
+} 
+
+.help-trigger-container:hover .help-icon { 
+  transform: scale(1.1); 
+  border-color: #007acc; 
+  color: #fff; 
+} 
+
+@keyframes floatUpDown { 
+  0%, 100% { transform: translateY(0); } 
+  50% { transform: translateY(-10px); } 
+} 
+
+/* Modal Overlay Framework */ 
+.instruction-modal { 
+  position: fixed; 
+  top: 0; left: 0; 
+  width: 100%; height: 100%; 
+  background: rgba(15, 23, 42, 0.6); 
+  backdrop-filter: blur(4px); 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 2000; 
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity 0.25s ease; 
+} 
+
+.instruction-modal.is-active { opacity: 1; pointer-events: auto; } 
+
+.modal-card { 
+  background: #ffffff; 
+  width: 90%; 
+  max-width: 550px; 
+  max-height: 80vh; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: flex-start !important; 
+  align-items: stretch !important; 
+  overflow: hidden !important; 
+  border-radius: 16px; 
+  padding: 2rem; 
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); 
+  position: relative; 
+  transform: scale(0.9); 
+  transition: transform 0.25s ease; 
+} 
+
+.instruction-modal.is-active .modal-card { transform: scale(1); } 
+
+.modal-close { 
+  position: absolute; 
+  top: 15px; right: 20px; 
+  font-size: 1.5rem; 
+  background: none; 
+  border: none; 
+  color: #64748b; 
+  cursor: pointer; 
+  transition: color 0.2s; 
+} 
+
+.modal-close:hover { color: #0f172a; } 
+
+.modal-card h2 { 
+  margin-top: 0; 
+  color: #0f172a; 
+  font-size: 1.5rem; 
+  border-bottom: 2px solid #f1f5f9; 
+  padding-bottom: 0.75rem; 
+  font-family: system-ui, -apple-system, sans-serif; 
+  flex-shrink: 0; 
+} 
+
+/* Core scrolling viewport window */ 
+.modal-content { 
+  overflow-y: auto !important; 
+  padding-right: 8px; 
+  margin-top: 1rem; 
+  display: flex !important; 
+  flex-direction: column !important; 
+  justify-content: flex-start !important; 
+  align-items: stretch !important; 
+  flex: 1 1 auto !important; 
+  min-height: 0 !important; 
+} 
+
+.modal-intro { 
+  font-size: 0.92rem; 
+  color: #475569; 
+  margin-bottom: 1.25rem; 
+  line-height: 1.5; 
+  font-family: system-ui, -apple-system, sans-serif; 
+} 
+
+.modal-content ul { 
+  margin-top: 1.25rem;
+  padding-left: 1.25rem; 
+  color: #334155; 
+  line-height: 1.6; 
+  font-family: system-ui, -apple-system, sans-serif; 
+} 
+
+.modal-content li { 
+  margin-bottom: 1rem; 
+  font-size: 0.92rem; 
+} 
+
+.modal-content code { 
+  background: #f1f5f9; 
+  padding: 2px 6px; 
+  border-radius: 4px; 
+  font-family: monospace; 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+  color: #0f172a; 
+} 
+
+/* Highlighting Syntax Classes */ 
+.kw { color: var(--vs-keyword); } 
+.str { color: var(--vs-string); } 
+.cmt { color: var(--vs-comment); } 
+.var { color: var(--vs-variable); } 
+.num { color: var(--vs-number); } 
+.fn { color: var(--vs-function); } 
+
+/* --- Bottom Sheet Panel Component Extensions --- */ 
+.bottom-sheet { 
+  position: fixed; 
+  left: 0; bottom: 0; 
+  width: 100%; height: 500px; 
+  background: #ffffff; 
+  border-top-left-radius: 16px; 
+  border-top-right-radius: 16px; 
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2); 
+  transform: translateY(440px); 
+  transition: transform 0.1s ease-out; 
+  z-index: 999; 
+  display: flex; 
+  flex-direction: column; 
+  touch-action: none; 
+} 
+
+.bottom-sheet.handling-transition { 
+  transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1); 
+} 
+
+.sheet-header { 
+  width: 100%; height: 60px; 
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  cursor: grab; background: #fafafa; 
+  border-top-left-radius: 16px; border-top-right-radius: 16px; 
+  border-bottom: 1px solid #eeeeee; user-select: none; flex-shrink: 0; 
+} 
+
+.sheet-header:active { cursor: grabbing; } 
+
+.drag-pointer { 
+  width: 0; height: 0; 
+  border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid #666666; 
+  margin-bottom: 6px; animation: bounce 1.5s infinite; 
+} 
+
+.exposed-text { font-size: 13px; font-weight: 600; color: #222222; letter-spacing: 0.5px; text-transform: uppercase; } 
+.sheet-content { width: 100%; height: calc(100% - 60px); overflow: hidden; flex-grow: 1; background: #ffffff; } 
+
+/* Recording view coverage modifiers */ 
+body[data-recorder="true"] #bottomSheet, 
+body[data-recorder="true"] .help-trigger-container { 
+  display: none !important; 
+  opacity: 0 !important; 
+  visibility: hidden !important; 
+} 
+
+@keyframes bounce { 
+  0%, 100% { transform: translateY(0); } 
+  50% { transform: translateY(-4px); } 
+}

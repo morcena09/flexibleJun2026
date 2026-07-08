@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>Flexible Classroom </title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://download.agora.io/edu-apaas/release/edu_sdk@2.9.40.bundle.js"></script>
+    <script src="https://download.agora.io/edu-apaas/release/edu_widget@2.9.40.bundle.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <div id="bottomSheet" class="bottom-sheet">
+      <div class="sheet-header" id="sheetHeader">
+        <div class="drag-pointer"></div>
+        <div class="exposed-text">Use REST APIs</div>
+      </div>
+      <div class="sheet-content" id="restWorkspaceMount"></div>
+    </div>
+
+    <div class="help-trigger-container" id="openModalBtn">
+      <div class="help-icon">i</div>
+    </div>
+
+<div class="instruction-modal" id="instructionModal">
+  <div class="modal-card">
+    <button class="modal-close" id="closeModalBtn">&times;</button>
+    <h2>Workspace Instructions</h2>
+    <div class="modal-content">
+      <p class="modal-intro">
+        Drag the <strong>"Use REST APIs"</strong> sheet up from the bottom of your screen to choose your testing methodology. You can perform <strong>Frontend Record Testing</strong> to evaluate real-time UI behavior, or execute <strong>REST API Record Tests</strong> directly from the developer console to simulate background live operations. <strong>Note: Only users authenticated with the Teacher role have permissions to use frontend recording and execute these REST APIs.</strong>
+      </p>
+      <ul>
+        <li>
+          <strong>Module 1: Classroom Layout</strong><br>
+          The main page sets up the core viewport and houses the interactive panels. Clicking the floating <strong>"i"</strong> info button at the bottom right brings up these guidelines at any point during your testing session.
+        </li>
+        <li>
+          <strong>Module 2: App Workflow & Lifecycle (app.js)</strong><br>
+          When you use the REST tool to change the room state to "Ended" or "Closed", the background application automatically intercepts the event, teardown functions clear the screen, and you are redirected back to the main landing page. If the application detects a recording bot, it automatically hides the helper sheets to keep the recorded video stream clean.
+        </li>
+        <li>
+          <strong>Module 3: Live REST Actions (restClient.js)</strong><br>
+          The draggable card contains three core integrations which display live API server responses upon execution:
+          <ul>
+            <li><strong>Set Classroom State:</strong> Change the active room timeline. Select <code>0</code> to reset the clock timer, <code>1</code> to start the timer, <code>2</code> to set the session as ended, or <code>3</code> to completely destroy/close the classroom and kick all active users out.</li>
+            <li><strong>Set Recording State:</strong> Manage live recording capture streams. Toggle state to <code>0</code> to stop recording, or state to <code>1</code> to initiate capture. <em>Note: This specialized module dynamically displays the live cURL payload that will be sent to the servers before dispatch.</em></li>
+            <li><strong>Query Classroom Recording:</strong> Used to auditing active streams to ensure there are no rogue recordings left running in the background. It returns and displays the structural <code>Start</code> and <code>End</code> logging timestamps cleanly.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

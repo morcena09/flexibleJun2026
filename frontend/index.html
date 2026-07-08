@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexible Classroom - Workspace</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="./config/config.js"></script>
+
+    <script src="./app.js" defer></script>
+    
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  </head>
+  <body>
+    
+    <div class="left-panel">
+      <div class="glass-card">
+        <header>
+          <h1>Flexible Classroom</h1>
+        </header>
+        <form id="urlForm">
+          <div class="workspace-centered">
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="region">Region</label>
+                <select id="region" required>
+                  <option value="" disabled selected hidden>Select Region</option>
+                  <option value="AP">AP</option>
+                  <option value="NA">NA</option>
+                  <option value="CN">CN</option>
+                  <option value="EU">EU</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="roleType">Role Type</label>
+                <select id="roleType" required>
+                  <option value="" disabled selected hidden>Select Role</option>
+                  <option value="0">0 (Recorder)</option>
+                  <option value="1">1 (Teacher)</option>
+                  <option value="2">2 (Student)</option>
+                  <option value="3">3 (Assistant)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="roomType">Layout</label>
+                <select id="roomType" required>
+                  <option value="" disabled selected hidden>Select Layout</option>
+                  <option value="0">One-to-One (0)</option>
+                  <option value="2">Lecture Hall (2)</option>
+                  <option value="4">Small Class (4)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="duration">Duration (Minutes)</label>
+                <input type="number" id="duration" value="" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="roomUuid">Room UUID</label>
+                <input type="text" id="roomUuid" value="" required>
+              </div>
+              <div class="form-group">
+                <label for="roomName">Room Name</label>
+                <input type="text" id="roomName" value="" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="userUuid">User UUID</label>
+                <input type="text" id="userUuid" value="" required>
+              </div>
+              <div class="form-group">
+                <label for="userName">User Name</label>
+                <input type="text" id="userName" value="" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rtmToken">User RTM Token</label>
+              <input type="text" id="rtmToken" value="" autocomplete="off" readonly required style="background: rgba(15, 23, 42, 0.05); color: var(--text-muted); cursor: not-allowed;">
+              <div id="thoughtBubble" class="thought-bubble">
+                ℹ️ <strong>URL-Safe Encoding Active:</strong> Your raw token contains string configurations that will break web queries. Here is how your sanitized token will be processed:
+                <div id="tokenPreview" class="token-preview-box"></div>
+              </div>
+            </div>
+
+            <hr class="divider">
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recordingUuid">Recording UUID</label>
+                <input type="text" id="recordingUuid" value="" required>
+              </div>
+              <div class="form-group">
+                <label for="recordingRtmToken">Recording RTM Token</label>
+                <input type="text" id="recordingRtmToken" value="" readonly required style="background: rgba(15, 23, 42, 0.05); color: var(--text-muted); cursor: not-allowed;">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="appId">App ID</label>
+              <input type="text" id="appId" value="" required>
+            </div>
+
+            <div class="form-group">
+              <label for="appCertificate">App Certificate</label>
+              <input type="password" id="appCertificate" value="" required autocomplete="off">
+            </div>
+
+            <button type="button" id="btnGenerateTokens" class="btn-primary" style="margin-bottom: 1rem;">Generate Security Tokens</button>
+            <button type="submit" class="btn-primary">Launch Environment</button>
+            
+           
+            <div class="form-group captcha-container-block"> 
+            <label>Security Verification</label> 
+            <div class="captcha-inner-frame"> 
+            <div class="cf-turnstile"></div> 
+            </div> 
+            </div>
+
+
+        </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="code-editor">
+        <div class="editor-header">
+          <div class="editor-buttons">
+            <div class="editor-dot dot-red"></div>
+            <div class="editor-dot dot-yellow"></div>
+            <div class="editor-dot dot-green"></div>
+          </div>
+          <div class="editor-tab">classroomApp.js</div>
+        </div>
+        <div id="codeBody" class="editor-body"></div>
+      </div>
+    </div>
+
+    <div class="help-trigger-container" id="openModalBtn">
+      <div class="help-icon">i</div>
+    </div>
+
+    <div class="instruction-modal" id="instructionModal">
+      <div class="modal-card">
+        <button class="modal-close" id="closeModalBtn">&times;</button>
+        <h2>Workspace Information</h2>
+        <div class="modal-content">
+          <p class="modal-intro">Welcome to the <strong>Flexible Classroom Workspace</strong>! Use this interactive panel to safely generate configurations, sign tokens, and simulate runtime classroom behavior. Follow this sequence to get started:</p>
+          
+          <ul>
+            <li> 
+                <strong>1. Define the Classroom Setup (Top Form):</strong> 
+                Fill out the baseline classroom variables like your target infrastructure <code>Region</code>, classroom <code>Layout</code> format, and unique identity keys (<code>Room UUID</code> and <code>User UUID</code>). 
+                <em>Please be aware that your generated RTM Tokens and authorized REST API operations are strictly bound to your input <code>Duration</code>.</em>
+            </li>
+            <li>
+              <strong>2. Set Your Identity Profile (Role Type):</strong> 
+              Choose who you are logging in as. Note that <strong>only Teachers (Role Type 1)</strong> have permissions to trigger recordings. If you select <strong>Recorder (0), Student (2), or Assistant (3)</strong>, both the user interface recording controls and the backend REST recording utilities will be locked out for you.
+            </li>
+            <li>
+              <strong>3. Input Project Credentials:</strong> 
+              Scroll down to provide your <code>App ID</code> and <code>App Certificate</code>. These keys are processed locally to sign security handshakes and are never permanently saved.
+            </li>
+            <li>
+              <strong>4. Sign Your Session Tokens:</strong> 
+              Click the <strong>"Generate Security Tokens"</strong> button. This populates your read-only token fields. Notice the <em>URL-Safe Encoding Info Bubble</em>: it automatically previews how your raw token characters are sanitized so they don't break web queries.
+            </li>
+            <li>
+              <strong>5. Inspect the Live Code Canvas (Right Panel):</strong> 
+              As you fill in fields, look over at the simulated code editor window on the right side. It compiles your input fields into a live preview of the initialization payload arguments that the underlying classroom engine consumes.
+            </li>
+            <li>
+              <strong>6. Launch the Runtime Sandbox:</strong> 
+              Once your configuration looks correct, hit the primary <strong>"Launch Environment"</strong> button to load your customized runtime container instance.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Modal State Infrastructure Management
+      const modal = document.getElementById('instructionModal');
+      const openBtn = document.getElementById('openModalBtn');
+      const closeBtn = document.getElementById('closeModalBtn');
+
+      openBtn.addEventListener('click', () => {
+        modal.classList.add('is-active');
+      });
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('is-active');
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('is-active');
+        }
+      });
+    </script>
+  </body>
+</html>
