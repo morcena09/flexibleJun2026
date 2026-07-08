@@ -18,64 +18,47 @@ Create three Vercel projects, each pointing to one of these folders:
    - Project root: `/backend/restRelay`
    - Deploys the request tunnel gateway
 
-3. **Backend/tokenGenerator**
-   - Project root: `/backend/tokenGenerator`
-   - Deploys the token generator backend
+### 6.1 Deploy using the Vercel CLI
 
-<!-- The deployment-specific domain instructions have been moved to the Deployment Notes (6.2) -->
+You can deploy directly from your machine using the Vercel CLI. This is useful when you want to create or update a project from the terminal and verify domains quickly.
 
-## 2. Vercel Environment Variables
+Install and authenticate the Vercel CLI (one-time):
 
-In the Vercel dashboard, open the **Environment Variables** section.
-
-### 2.1 Shared variables
-Use the **Shared** tab to create global variables available across multiple projects.
-
-- `DEMO_PASSCODE` -> set your custom secret value
-- `TURNSTILE_SECRET_KEY` -> leave blank until you have the Cloudflare secret
-
-## 3. Cloudflare Turnstile Setup
-
-If you do not already have a Cloudflare account:
-
-1. Create a Cloudflare account.
-2. Search for **Turnstile**.
-3. Add a widget manually.
-4. Add the Frontend Vercel domain under Hostname Management.
-5. Optionally add `localhost` to test locally.
-6. Set **Widget Mode** to **Managed**.
-7. Save the widget.
-8. Copy the **Site key** and **Secret key**.
-9. Paste the **Secret key** into the Vercel shared environment variable `TURNSTILE_SECRET_KEY`.
-
-Then place the Cloudflare site key into `frontend/config/config.js`:
-
-```js
-TURNSTILE_SITE_KEY: '<your-cloudflare-site-key>'
+```bash
+npm install -g vercel
+vercel login
 ```
 
-## 4. Vercel Dashboard — Backend/restRelay
+Deploy each project folder (run these from the workspace root or from each folder):
 
-1. Open the **Backend/restRelay** project overview.
-2. Go to **Environment Variables**.
-3. Link shared variables.
-4. Ensure `DEMO_PASSCODE` and `TURNSTILE_SECRET_KEY` are available to this project.
+```bash
+# from workspace root
+cd frontend
+vercel       # follow interactive prompts to link or create a project
 
-## 5. Vercel Dashboard — Backend/tokenGenerator
+cd ../backend/restRelay
+vercel
 
-1. Open the **Backend/tokenGenerator** project overview.
-2. Go to **Environment Variables**.
-3. Link the shared variables.
-4. Ensure `DEMO_PASSCODE` is available to this project.
+cd ../backend/tokenGenerator
+vercel
+```
 
-## 6. Deployment Notes
+To create a production deployment directly use `vercel --prod` instead of `vercel`:
 
-- Deploy the three projects separately.
-- Link the local folders to the corresponding Vercel projects:
-  - `frontend/` -> Frontend project
-  - `backend/restRelay/` -> Backend/restRelay project
-  - `backend/tokenGenerator/` -> Backend/tokenGenerator project
-- After each deployment, confirm the assigned domains and update `frontend/config/config.js`.
+```bash
+cd frontend
+vercel --prod
+
+cd ../backend/restRelay
+vercel --prod
+
+cd ../backend/tokenGenerator
+vercel --prod
+```
+
+Notes:
+- If you already created projects in the Vercel dashboard, during `vercel` you can select the existing project to link your local folder.
+- After successful deploys, copy the assigned domains and paste them into `frontend/config/config.js` as described above.
 
 ### 6.2 After deployment
 
@@ -96,6 +79,23 @@ const envConfig = {
   CLASSROOM_HOST: 'https://<frontend-domain>/classroom',
   TURNSTILE_SITE_KEY: '',
   LANDING_PAGE_URL: 'https://<frontend-domain>'
+};
+```
+
+### 6.3 Production deploy (`vercel --prod`)
+
+If you want to create a production deployment directly, use `vercel --prod` from the project folder. This skips the preview flow and publishes to production.
+
+```bash
+cd frontend
+vercel --prod
+
+cd ../backend/restRelay
+vercel --prod
+
+cd ../backend/tokenGenerator
+vercel --prod
+```
 };
 ```
 
