@@ -96,6 +96,48 @@ TURNSTILE_SITE_KEY: '<your-cloudflare-site-key>'
   - `backend/tokenGenerator/` -> Backend/tokenGenerator project
 - After each deployment, confirm the assigned domains and update `frontend/config/config.js`.
 
+### 6.1 Deploy using the Vercel CLI
+
+You can deploy directly from your machine using the Vercel CLI. This is useful when you want to create or update a project from the terminal and verify domains quickly.
+
+Install and authenticate the Vercel CLI (one-time):
+
+```bash
+npm install -g vercel
+vercel login
+```
+
+Deploy each project folder (run these from the workspace root or from each folder):
+
+```bash
+# from workspace root
+cd frontend
+vercel       # follow interactive prompts to link or create a project
+
+cd ../backend/restRelay
+vercel
+
+cd ../backend/tokenGenerator
+vercel
+```
+
+To create a production deployment directly use `vercel --prod` instead of `vercel`:
+
+```bash
+cd frontend
+vercel --prod
+
+cd ../backend/restRelay
+vercel --prod
+
+cd ../backend/tokenGenerator
+vercel --prod
+```
+
+Notes:
+- If you already created projects in the Vercel dashboard, during `vercel` you can select the existing project to link your local folder.
+- After successful deploys, copy the assigned domains and paste them into `frontend/config/config.js` as described above.
+
 ## Local Development
 
 ### Frontend
