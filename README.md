@@ -22,26 +22,7 @@ Create three Vercel projects, each pointing to one of these folders:
    - Project root: `/backend/tokenGenerator`
    - Deploys the token generator backend
 
-### 1.1 After deployment
-Copy the assigned Vercel domains for each project into `frontend/config/config.js`.
-
-Update the config values for:
-- `REST_RELAY_URL`
-- `TOKEN_GENERATOR_URL`
-- `CLASSROOM_HOST`
-- `LANDING_PAGE_URL`
-
-Example placeholders in `frontend/config/config.js`:
-
-```js
-const envConfig = {
-  REST_RELAY_URL: 'https://<restRelay-domain>/api/v1/request-tunnel',
-  TOKEN_GENERATOR_URL: 'https://<tokenGenerator-domain>/api/v1/generateRtmToken',
-  CLASSROOM_HOST: 'https://<frontend-domain>/classroom',
-  TURNSTILE_SITE_KEY: '',
-  LANDING_PAGE_URL: 'https://<frontend-domain>'
-};
-```
+<!-- The deployment-specific domain instructions have been moved to the Deployment Notes (6.2) -->
 
 ## 2. Vercel Environment Variables
 
@@ -95,6 +76,43 @@ TURNSTILE_SITE_KEY: '<your-cloudflare-site-key>'
   - `backend/restRelay/` -> Backend/restRelay project
   - `backend/tokenGenerator/` -> Backend/tokenGenerator project
 - After each deployment, confirm the assigned domains and update `frontend/config/config.js`.
+
+### 6.2 After deployment
+
+Copy the assigned Vercel domains for each project into `frontend/config/config.js`.
+
+Update the config values for:
+- `REST_RELAY_URL`
+- `TOKEN_GENERATOR_URL`
+- `CLASSROOM_HOST`
+- `LANDING_PAGE_URL`
+
+Example placeholders in `frontend/config/config.js`:
+
+```js
+const envConfig = {
+  REST_RELAY_URL: 'https://<restRelay-domain>/api/v1/request-tunnel',
+  TOKEN_GENERATOR_URL: 'https://<tokenGenerator-domain>/api/v1/generateRtmToken',
+  CLASSROOM_HOST: 'https://<frontend-domain>/classroom',
+  TURNSTILE_SITE_KEY: '',
+  LANDING_PAGE_URL: 'https://<frontend-domain>'
+};
+```
+
+### 6.3 Production deploy (`vercel --prod`)
+
+If you want to create a production deployment directly, use `vercel --prod` from the project folder. This skips the preview flow and publishes to production.
+
+```bash
+cd frontend
+vercel --prod
+
+cd ../backend/restRelay
+vercel --prod
+
+cd ../backend/tokenGenerator
+vercel --prod
+```
 
 ### 6.1 Deploy using the Vercel CLI
 
