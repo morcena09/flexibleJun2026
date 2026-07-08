@@ -33,6 +33,20 @@ export function initRestClient(container) {
         return 'https://flexible-jun2026.vercel.app/classroom';
     }
 
+    // Helper to resolve landing page URL from sessionStorage-backed config
+    function getLandingPageUrl() {
+        try {
+            const storedConfigJson = sessionStorage.getItem('APP_CONFIG');
+            if (storedConfigJson) {
+                const storedConfig = JSON.parse(storedConfigJson);
+                return storedConfig.LANDING_PAGE_URL || 'https://flexible-jun2026.vercel.app';
+            }
+        } catch (err) {
+            console.warn('⚠️ Could not read LANDING_PAGE_URL from sessionStorage:', err);
+        }
+        return 'https://flexible-jun2026.vercel.app';
+    }
+
     // 2. Inject Stacked UI Component Styles 
     const styleId = 'rest-client-styles'; 
     if (!document.getElementById(styleId)) { 
@@ -142,9 +156,10 @@ export function initRestClient(container) {
         const encodedToken = encodeURIComponent(rawToken); 
         const encodedRoomName = encodeURIComponent(roomName); 
         const targetUrl = `https://api.agora.io/${region}/edu/apps/${appId}/v2/rooms/${roomUuid}/records/states/${state}`; 
-        const classroomHost = getClassroomHost();
-        const webUrl = `${classroomHost}/?userUuid=${currentUUID}&roomUuid=${roomUuid}&roomName=${encodedRoomName}&roleType=0&roomType=${roomType}&pretest=false&rtmToken=${encodedToken}&language=en&duration=${duration}&appId=${appId}&region=${region}&isRecorder=true`;
-        const curlString = `curl --location -g --request PUT '${targetUrl}' \\\n` + `--header 'Authorization: agora token=${rtmToken}' \\\n` + `--data-raw '{\n` + `    "mode": "web",\n` + `    "webRecordConfig": {\n` + `        "url": "${webUrl}",\n` + `        "rootUrl": "https://flexible-jun2026.vercel.app",\n` + `        "publishRtmp": false,\n` + `        "onhold": false,\n` + `        "videoWidth": 1280,\n` + `        "videoHeight": 720,\n` + `        "videoBitrate": 2000,\n` + `        "videoFps": 15,\n` + `        "audioProfile": 0,\n` + `        "maxRecordingHour": 2\n` + `    },\n` + `    "retryTimeout": 60\n` + `}'`; 
+            const classroomHost = getClassroomHost();
+            const landingPageUrl = getLandingPageUrl();
+            const webUrl = `${classroomHost}/?userUuid=${currentUUID}&roomUuid=${roomUuid}&roomName=${encodedRoomName}&roleType=0&roomType=${roomType}&pretest=false&rtmToken=${encodedToken}&language=en&duration=${duration}&appId=${appId}&region=${region}&isRecorder=true`;
+            const curlString = `curl --location -g --request PUT '${targetUrl}' \\\n` + `--header 'Authorization: agora token=${rtmToken}' \\\n` + `--data-raw '{\n` + `    "mode": "web",\n` + `    "webRecordConfig": {\n` + `        "url": "${webUrl}",\n` + `        "rootUrl": "${landingPageUrl}",\n` + `        "publishRtmp": false,\n` + `        "onhold": false,\n` + `        "videoWidth": 1280,\n` + `        "videoHeight": 720,\n` + `        "videoBitrate": 2000,\n` + `        "videoFps": 15,\n` + `        "audioProfile": 0,\n` + `        "maxRecordingHour": 2\n` + `    },\n` + `    "retryTimeout": 60\n` + `}'`; 
         curlPreviewBox.textContent = curlString; 
     } 
 
@@ -191,8 +206,9 @@ export function initRestClient(container) {
         const encodedRoomName = encodeURIComponent(roomName); 
         const targetUrl = `https://api.agora.io/${region}/edu/apps/${appId}/v2/rooms/${roomUuid}/records/states/${selectedState}`; 
         const classroomHost = getClassroomHost();
+        const landingPageUrl = getLandingPageUrl();
         const webUrl = `${classroomHost}/?userUuid=${dynamicUserUuid}&roomUuid=${roomUuid}&roomName=${encodedRoomName}&roleType=0&roomType=${roomType}&pretest=false&rtmToken=${cleanRecordToken}&language=en&duration=${duration}&appId=${appId}&region=${region}&isRecorder=true`;
-        const jsonPayload = { "mode": "web", "webRecordConfig": { "url": webUrl, "rootUrl": "https://flexible-jun2026.vercel.app", "publishRtmp": false, "onhold": false, "videoWidth": 1280, "videoHeight": 720, "videoBitrate": 2000, "videoFps": 15, "audioProfile": 0, "maxRecordingHour": 2 }, "retryTimeout": 60 };
+        const jsonPayload = { "mode": "web", "webRecordConfig": { "url": webUrl, "rootUrl": landingPageUrl, "publishRtmp": false, "onhold": false, "videoWidth": 1280, "videoHeight": 720, "videoBitrate": 2000, "videoFps": 15, "audioProfile": 0, "maxRecordingHour": 2 }, "retryTimeout": 60 };
         runUIAction({ actionName: 'Recording State', requestConfig: { url: targetUrl, method: 'PUT', body: JSON.stringify(jsonPayload), token: `agora token=${rtmToken}` }, outputEl: container.querySelector('#outRecordingState'), statusEl: container.querySelector('#statusRecordingState') }); 
     }); 
 
