@@ -4,9 +4,9 @@
     const envConfig = {
         REST_RELAY_URL: 'https://rest-relay-one.vercel.app/api/v1/request-tunnel', //Vercel backend/restRelay linked project root url + /api/v1/request-tunnel route
         TOKEN_GENERATOR_URL: 'https://token-generator-phi-navy.vercel.app/api/v1/generateRtmToken', //Vercel backend/tokenGenerator linked project root url + /api/v1/generateRtmToken route
-        CLASSROOM_HOST: 'https://flexible-jun2026.vercel.app/classroom', //Vercel frontend folder linked project root url + /classroom route
+        CLASSROOM_HOST: '/frontend/classroom', //Vercel frontend folder linked project root url + /classroom route
         TURNSTILE_SITE_KEY: '', // Replace this string with your real CF Site key!
-        LANDING_PAGE_URL: 'https://flexible-jun2026.vercel.app' //Vercel frontend folder linked project root url
+        LANDING_PAGE_URL: '' //Vercel frontend folder linked project root url
     };
 
     let storedConfig = {};

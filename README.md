@@ -31,6 +31,7 @@ Use the **Shared** tab to create global variables available across multiple proj
 
 - `DEMO_PASSCODE` -> set your custom secret value
 - `TURNSTILE_SECRET_KEY` -> leave blank until you have the Cloudflare secret
+- `TOKEN_GENERATOR_DOMAIN` -> fill in with the Vercel assigned domain name for backend/tokenGenerator
 
 ## 3. Cloudflare Turnstile Setup
 
@@ -57,7 +58,7 @@ TURNSTILE_SITE_KEY: '<your-cloudflare-site-key>'
 1. Open the **Backend/restRelay** project overview.
 2. Go to **Environment Variables**.
 3. Link shared variables.
-4. Ensure `DEMO_PASSCODE` and `TURNSTILE_SECRET_KEY` are available to this project.
+4. Ensure `DEMO_PASSCODE`, `TURNSTILE_SECRET_KEY` and `TOKEN_GENERATOR_DOMAIN` are available to this project.
 
 ## 5. Vercel Dashboard — Backend/tokenGenerator
 
